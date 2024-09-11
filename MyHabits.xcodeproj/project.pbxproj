@@ -15,9 +15,10 @@
 		901EB5882C7A00FD00AC0157 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EB5872C7A00FD00AC0157 /* InfoViewController.swift */; };
 		901EB58A2C7A048A00AC0157 /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EB5892C7A048A00AC0157 /* HabitsStore.swift */; };
 		901EB58C2C7A069800AC0157 /* HabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EB58B2C7A069800AC0157 /* HabitViewController.swift */; };
-		901EB5BB2C8586E500AC0157 /* HabitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901EB5BA2C8586E500AC0157 /* HabitTableViewCell.swift */; };
 		9071E7DB2C8F6F4300314958 /* HabitDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9071E7DA2C8F6F4200314958 /* HabitDetailsViewController.swift */; };
 		9071E7DD2C916DCD00314958 /* HabitDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9071E7DC2C916DCC00314958 /* HabitDetailsTableViewCell.swift */; };
+		9071E7DF2C923B7E00314958 /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9071E7DE2C923B7E00314958 /* HabitCollectionViewCell.swift */; };
+		9071E7E32C923DCE00314958 /* Reusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9071E7E22C923DCE00314958 /* Reusable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,9 +32,10 @@
 		901EB5872C7A00FD00AC0157 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		901EB5892C7A048A00AC0157 /* HabitsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
 		901EB58B2C7A069800AC0157 /* HabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewController.swift; sourceTree = "<group>"; };
-		901EB5BA2C8586E500AC0157 /* HabitTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitTableViewCell.swift; sourceTree = "<group>"; };
 		9071E7DA2C8F6F4200314958 /* HabitDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsViewController.swift; sourceTree = "<group>"; };
 		9071E7DC2C916DCC00314958 /* HabitDetailsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		9071E7DE2C923B7E00314958 /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
+		9071E7E22C923DCE00314958 /* Reusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reusable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +78,9 @@
 				901EB5892C7A048A00AC0157 /* HabitsStore.swift */,
 				901EB58B2C7A069800AC0157 /* HabitViewController.swift */,
 				9071E7DA2C8F6F4200314958 /* HabitDetailsViewController.swift */,
-				901EB5BA2C8586E500AC0157 /* HabitTableViewCell.swift */,
 				9071E7DC2C916DCC00314958 /* HabitDetailsTableViewCell.swift */,
+				9071E7DE2C923B7E00314958 /* HabitCollectionViewCell.swift */,
+				9071E7E22C923DCE00314958 /* Reusable.swift */,
 			);
 			path = MyHabits;
 			sourceTree = "<group>";
@@ -153,14 +156,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				901EB58A2C7A048A00AC0157 /* HabitsStore.swift in Sources */,
+				9071E7E32C923DCE00314958 /* Reusable.swift in Sources */,
 				901EB58C2C7A069800AC0157 /* HabitViewController.swift in Sources */,
 				9071E7DD2C916DCD00314958 /* HabitDetailsTableViewCell.swift in Sources */,
 				901EB5722C79F7C800AC0157 /* AppDelegate.swift in Sources */,
 				901EB5742C79F7C800AC0157 /* SceneDelegate.swift in Sources */,
 				901EB5862C7A00EF00AC0157 /* HabitsViewController.swift in Sources */,
-				901EB5BB2C8586E500AC0157 /* HabitTableViewCell.swift in Sources */,
 				9071E7DB2C8F6F4300314958 /* HabitDetailsViewController.swift in Sources */,
 				901EB5882C7A00FD00AC0157 /* InfoViewController.swift in Sources */,
+				9071E7DF2C923B7E00314958 /* HabitCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

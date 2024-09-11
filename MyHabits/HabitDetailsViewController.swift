@@ -57,7 +57,7 @@ extension HabitDetailsViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseID.habitDate.rawValue, for: indexPath) as? HabitDetailsTableViewCell else {
                 fatalError("could not dequeueReusableCell")
             }
-        var model = HabitsStore.shared.dates
+        let model = HabitsStore.shared.dates
         print(model)
         cell.update(model[indexPath.row])
         return cell
