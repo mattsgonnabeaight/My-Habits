@@ -8,7 +8,7 @@
 import UIKit
 
 class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate {
-
+    
     private lazy var habitNameLabel : UILabel = {
         let habitNameLabel = UILabel()
         habitNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -160,7 +160,7 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         present(colorPicker, animated: true)
     }
     
-    func colorPickerDidSelectColor(_ viewController: UIColorPickerViewController) {
-        self.view.backgroundColor = viewController.selectedColor
+    func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
+        self.habitColorPicker.backgroundColor = viewController.selectedColor
     }
 }

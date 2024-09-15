@@ -12,8 +12,8 @@ class HabitDetailsTableViewCell: UITableViewCell {
     private lazy var habitDate: UILabel = {
         let habitDate = UILabel()
         habitDate.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        habitDate.textColor = .label
-        habitDate.numberOfLines = 2
+        habitDate.textColor = .black
+        habitDate.numberOfLines = 0
         habitDate.translatesAutoresizingMaskIntoConstraints = false
         return habitDate
     }()
@@ -57,7 +57,7 @@ class HabitDetailsTableViewCell: UITableViewCell {
     private func tuneView() {
         backgroundColor = .tertiarySystemBackground
         contentView.backgroundColor = .tertiarySystemBackground
-        textLabel?.backgroundColor = .clear
+        textLabel?.backgroundColor = .black
         detailTextLabel?.backgroundColor = .clear
         imageView?.backgroundColor = .black
         contentView.addSubview(habitDate)
@@ -71,16 +71,16 @@ class HabitDetailsTableViewCell: UITableViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            habitDate.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.0),
-            habitDate.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.0),
-            habitDate.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16.0),
+            habitDate.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 16.0),
+            habitDate.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -16.0),
+            habitDate.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 16.0),
             habitDate.heightAnchor.constraint(equalToConstant: 30.0),
+            habitDate.widthAnchor.constraint(equalToConstant: 200.0),
         ])
     }
     
     func update(_ model: Date) {
-        habitDate.text = model.description
-
+        habitDate.text = model.formatted()
     }
 
 }

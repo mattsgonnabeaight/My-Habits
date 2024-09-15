@@ -37,13 +37,24 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var statusCheckmark : UIView = {
-        let statusCheckmark = UIView()
-        statusCheckmark.translatesAutoresizingMaskIntoConstraints = false
-        statusCheckmark.layer.masksToBounds = true
-        statusCheckmark.layer.cornerRadius = 18.0
-        statusCheckmark.layer.borderWidth = 3
-        return statusCheckmark
+    lazy var habitStatusButton : UIButton = {
+        let habitStatusButton = UIButton()
+        habitStatusButton.translatesAutoresizingMaskIntoConstraints = false
+        habitStatusButton.layer.masksToBounds = true
+        habitStatusButton.layer.cornerRadius = 18.0
+        habitStatusButton.layer.borderWidth = 3
+        //habitStatusButton.addTarget(self, action: nil, for: .touchUpInside)
+        //habitStatusButton.addTarget(self, action: nil, for: .touchUpInside)
+        return habitStatusButton
+    }()
+    
+    private lazy var habitStatusCheckmark : UIImageView = {
+//        let checkmark = UIImage(named: "checkmark")
+        let habitStatusCheckmark = UIImageView(image: UIImage(named: "checkmark"))
+        habitStatusCheckmark.translatesAutoresizingMaskIntoConstraints = false
+//        habitStatusCheckmark.alpha = 0
+        //habitStatusCheckmark.layer.backgroundColor = UIColor.white.cgColor
+        return habitStatusCheckmark
     }()
 
     override init(frame: CGRect) {
@@ -67,7 +78,9 @@ class HabitCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(fullNameLabel)
         contentView.addSubview(habitTimeLabel)
         contentView.addSubview(habitRepeatCounter)
-        contentView.addSubview(statusCheckmark)
+        contentView.addSubview(habitStatusButton)
+        contentView.addSubview(habitStatusCheckmark)
+        
     }
     
     private func setupConstraints() {
@@ -87,11 +100,17 @@ class HabitCollectionViewCell: UICollectionViewCell {
             habitRepeatCounter.topAnchor.constraint(equalTo: habitTimeLabel.bottomAnchor, constant: 26.0),
             habitRepeatCounter.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.0),
     
-            statusCheckmark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -25.0),
-            statusCheckmark.heightAnchor.constraint(equalToConstant: 36.0),
-            statusCheckmark.widthAnchor.constraint(equalToConstant: 36.0),
-            statusCheckmark.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            habitStatusButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant:  -25.0),
+            habitStatusButton.heightAnchor.constraint(equalToConstant: 36.0),
+            habitStatusButton.widthAnchor.constraint(equalToConstant: 36.0),
+            habitStatusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
+            
+            habitStatusCheckmark.heightAnchor.constraint(equalToConstant: 16.0),
+            habitStatusCheckmark.widthAnchor.constraint(equalToConstant: 16.0),
+            habitStatusCheckmark.centerXAnchor.constraint(equalTo: habitStatusButton.centerXAnchor),
+            habitStatusCheckmark.centerYAnchor.constraint(equalTo: habitStatusButton.centerYAnchor),
+
         ])
     }
     
@@ -100,7 +119,19 @@ class HabitCollectionViewCell: UICollectionViewCell {
         fullNameLabel.textColor = model.color
         habitTimeLabel.text = model.dateString
         habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count)
-        statusCheckmark.layer.borderColor = fullNameLabel.textColor.cgColor
+        habitStatusButton.layer.borderColor = fullNameLabel.textColor.cgColor
+        if model.isAlreadyTakenToday == true {
+            habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
+        } else { habitStatusButton.backgroundColor = UIColor.systemBackground }
     }
 
+    
+    @objc 
+    func changeHabitStatus() {
+        if habitStatusButton.backgroundColor != UIColor(cgColor: habitStatusButton.layer.borderColor!) {
+            habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
+        } else {
+            habitStatusButton.backgroundColor = UIColor.systemBackground
+        }
+    }
 }

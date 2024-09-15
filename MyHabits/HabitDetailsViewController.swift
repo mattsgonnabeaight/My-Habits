@@ -9,6 +9,8 @@ import UIKit
 
 class HabitDetailsViewController: UIViewController {
     
+    fileprivate let data = HabitsStore.shared.dates
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView.init(
             frame: .zero,
@@ -24,7 +26,7 @@ class HabitDetailsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editHabit))
         setupViews()
         setupConstraints()
     }
@@ -32,14 +34,25 @@ class HabitDetailsViewController: UIViewController {
     func setupViews() {
         self.view.backgroundColor = .white
         navigationController?.navigationBar.prefersLargeTitles = false
-        
-        
+        view.addSubview(tableView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-
+            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
         ])
+    }
+    
+    @objc func editHabit() {
+        let habitViewController = UINavigationController()
+        habitViewController.navigationBar.backgroundColor = .systemBackground
+        habitViewController.viewControllers = [HabitViewController()]
+        habitViewController.modalPresentationStyle = .fullScreen
+        habitViewController.modalTransitionStyle = .coverVertical
+        tabBarController?.present(habitViewController, animated: true, completion: nil)
     }
 }
 
@@ -54,12 +67,15 @@ extension HabitDetailsViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseID.habitDate.rawValue, for: indexPath) as? HabitDetailsTableViewCell else {
-                fatalError("could not dequeueReusableCell")
-            }
-        let model = HabitsStore.shared.dates
-        print(model)
-        cell.update(model[indexPath.row])
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseID.habitDate.rawValue, for: indexPath) as? HabitDetailsTableViewCell else {
+            fatalError("could not dequeueReusableCell")
+        }
+        //let model = HabitsStore.shared.dates[indexPath.row]
+//        let model = HabitsStore.shared.habits
+        
+        
+        //print(model)
+        cell.update(data[indexPath.row])
         return cell
     }
 }

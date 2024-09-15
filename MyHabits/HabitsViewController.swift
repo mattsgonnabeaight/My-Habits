@@ -9,7 +9,6 @@ import UIKit
 
 class HabitsViewController: UIViewController {
     
-
     private lazy var habitListLabel : UILabel = {
         let habitListLabel = UILabel()
         habitListLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
@@ -28,6 +27,7 @@ class HabitsViewController: UIViewController {
         collectionView.register(HabitCollectionViewCell.self, forCellWithReuseIdentifier: HabitCollectionViewCell.identifier)
         return collectionView
     }()
+    
     private enum CellReuseID: String, CaseIterable {
         //case status = "StatusTableViewCell_ReuseID"
         case habit = "HabitTableViewCell_ReuseID"
@@ -37,16 +37,19 @@ class HabitsViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createHabit))
+        for i in 0...HabitsStore.shared.dates.count - 1 {
+            print(HabitsStore.shared.dates[i])
+        }
         setupViews()
         setupConstraints()
         setupCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
-            print("appeared")
-            collectionView.reloadData()
-        }
+        super.viewWillAppear(animated)
+        print("appeared")
+        collectionView.reloadData()
+    }
     
     @objc func createHabit() {
         let habitViewController = UINavigationController()
@@ -77,9 +80,9 @@ class HabitsViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
+    
     private func setupCollectionView() {
         view.addSubview(collectionView)
-        
         collectionView.dataSource = self
         collectionView.delegate = self
     }
@@ -99,12 +102,10 @@ extension HabitsViewController: UICollectionViewDataSource {
     }
 }
 
-
 extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     
     private func itemWidth(for width: CGFloat, spacing: CGFloat) -> CGFloat {
         let itemsInRow: CGFloat = 1
-        //let totalSpacing: CGFloat = 2 * spacing + (itemsInRow - 1) * spacing
         let totalSpacing: CGFloat = 30
         let finalWidth = (width - totalSpacing) / itemsInRow
         return floor(finalWidth)
@@ -129,5 +130,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("Did select cell at \(indexPath.row)")
+        let details = HabitDetailsViewController()
+        navigationController?.pushViewController(details, animated: true)
     }
 }
