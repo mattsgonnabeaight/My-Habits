@@ -39,23 +39,23 @@ class HabitCollectionViewCell: UICollectionViewCell {
     
     lazy var habitStatusButton : UIButton = {
         let habitStatusButton = UIButton()
+
         habitStatusButton.translatesAutoresizingMaskIntoConstraints = false
         habitStatusButton.layer.masksToBounds = true
         habitStatusButton.layer.cornerRadius = 18.0
         habitStatusButton.layer.borderWidth = 3
-        //habitStatusButton.addTarget(self, action: nil, for: .touchUpInside)
-        //habitStatusButton.addTarget(self, action: nil, for: .touchUpInside)
+        habitStatusButton.addTarget(self, action: #selector(changeHabitStatus), for: .touchUpInside)
         return habitStatusButton
     }()
     
+//    var delegate : ReloadDateDelegate?
+    
     private lazy var habitStatusCheckmark : UIImageView = {
-//        let checkmark = UIImage(named: "checkmark")
         let habitStatusCheckmark = UIImageView(image: UIImage(named: "checkmark"))
         habitStatusCheckmark.translatesAutoresizingMaskIntoConstraints = false
-//        habitStatusCheckmark.alpha = 0
-        //habitStatusCheckmark.layer.backgroundColor = UIColor.white.cgColor
         return habitStatusCheckmark
     }()
+    
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -105,12 +105,10 @@ class HabitCollectionViewCell: UICollectionViewCell {
             habitStatusButton.widthAnchor.constraint(equalToConstant: 36.0),
             habitStatusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            
             habitStatusCheckmark.heightAnchor.constraint(equalToConstant: 16.0),
             habitStatusCheckmark.widthAnchor.constraint(equalToConstant: 16.0),
             habitStatusCheckmark.centerXAnchor.constraint(equalTo: habitStatusButton.centerXAnchor),
             habitStatusCheckmark.centerYAnchor.constraint(equalTo: habitStatusButton.centerYAnchor),
-
         ])
     }
     
@@ -127,11 +125,24 @@ class HabitCollectionViewCell: UICollectionViewCell {
 
     
     @objc 
-    func changeHabitStatus() {
-        if habitStatusButton.backgroundColor != UIColor(cgColor: habitStatusButton.layer.borderColor!) {
+    func changeHabitStatus(sender: UIButton) {
+        print(habitStatusButton.tag)
+        print(HabitsStore.shared.habits[tag].isAlreadyTakenToday)
+        if HabitsStore.shared.habits[tag].isAlreadyTakenToday == false {
+            HabitsStore.shared.track(HabitsStore.shared.habits[tag])
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         } else {
             habitStatusButton.backgroundColor = UIColor.systemBackground
         }
     }
+    
+//    @objc
+//    func deleteHabit(sender: UIButton) {
+//        
+//        HabitsStore.shared.habits.remove(at: habitStatusButton.tag)
+//        self.delegate = HabitsViewController()
+//        
+//        print("pressed delete")
+//    }
 }
+

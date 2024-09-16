@@ -40,6 +40,10 @@ class HabitsViewController: UIViewController {
         for i in 0...HabitsStore.shared.dates.count - 1 {
             print(HabitsStore.shared.dates[i])
         }
+        
+//        for i in 0...HabitsStore.shared.habits.count - 1 {
+//            print(HabitsStore.shared.habits[i].isAlreadyTakenToday)
+//        }
         setupViews()
         setupConstraints()
         setupCollectionView()
@@ -50,6 +54,12 @@ class HabitsViewController: UIViewController {
         print("appeared")
         collectionView.reloadData()
     }
+    
+    func updateCollection() {
+        print("called")
+        collectionView.reloadData()
+    }
+
     
     @objc func createHabit() {
         let habitViewController = UINavigationController()
@@ -97,7 +107,9 @@ extension HabitsViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as! HabitCollectionViewCell
         let habit = HabitsStore.shared.habits[indexPath.row]
+        cell.habitStatusButton.tag = indexPath.row
         cell.setup(with: habit)
+        
         return cell
     }
 }
@@ -134,3 +146,7 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(details, animated: true)
     }
 }
+
+//protocol ReloadDateDelegate {
+//    func updateCollection()
+//}
