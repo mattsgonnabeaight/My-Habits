@@ -48,6 +48,15 @@ class InfoViewController: UIViewController {
         return textAboutHabits
     }()
     
+    private lazy var habitStatusCheckmark : UIImageView = {
+        let habitStatusCheckmark = UIImageView(image: UIImage(named: "checkmark.circle"))
+        habitStatusCheckmark.translatesAutoresizingMaskIntoConstraints = false
+        habitStatusCheckmark.tintColor = .black
+        habitStatusCheckmark.layer.borderColor = UIColor.black.cgColor
+
+        return habitStatusCheckmark
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -82,6 +91,7 @@ class InfoViewController: UIViewController {
     private func setupContentOfScrollView() {
         contentView.addSubview(infoTitle)
         contentView.addSubview(textAboutHabits)
+        contentView.addSubview(habitStatusCheckmark)
         
         NSLayoutConstraint.activate([
             infoTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.0),
@@ -93,6 +103,15 @@ class InfoViewController: UIViewController {
             textAboutHabits.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.0),
             textAboutHabits.topAnchor.constraint(equalTo: infoTitle.bottomAnchor, constant: 16.0),
             textAboutHabits.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.0),
+            
+            habitStatusCheckmark.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16.0),
+//            habitStatusCheckmark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16.0),
+            habitStatusCheckmark.topAnchor.constraint(equalTo: textAboutHabits.bottomAnchor, constant: 16.0),
+//            habitStatusCheckmark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16.0),
+            habitStatusCheckmark.heightAnchor.constraint(equalToConstant: 16.0),
+            habitStatusCheckmark.widthAnchor.constraint(equalToConstant: 16.0),
         ])
+        
+        
     }
 }

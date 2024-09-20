@@ -44,18 +44,12 @@ class HabitCollectionViewCell: UICollectionViewCell {
         habitStatusButton.layer.masksToBounds = true
         habitStatusButton.layer.cornerRadius = 18.0
         habitStatusButton.layer.borderWidth = 3
+        habitStatusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+        habitStatusButton.imageView?.tintColor = .systemBackground
+//        habitStatusButton.imageView?.alpha = 0.0
         habitStatusButton.addTarget(self, action: #selector(changeHabitStatus), for: .touchUpInside)
         return habitStatusButton
     }()
-    
-//    var delegate : ReloadDateDelegate?
-    
-    private lazy var habitStatusCheckmark : UIImageView = {
-        let habitStatusCheckmark = UIImageView(image: UIImage(named: "checkmark"))
-        habitStatusCheckmark.translatesAutoresizingMaskIntoConstraints = false
-        return habitStatusCheckmark
-    }()
-    
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -73,14 +67,12 @@ class HabitCollectionViewCell: UICollectionViewCell {
     }
     
     private func tuneView() {
-        backgroundColor = .tertiarySystemBackground
-        contentView.backgroundColor = .tertiarySystemBackground
+        backgroundColor = .systemBackground
+        contentView.backgroundColor = .systemBackground
         contentView.addSubview(fullNameLabel)
         contentView.addSubview(habitTimeLabel)
         contentView.addSubview(habitRepeatCounter)
         contentView.addSubview(habitStatusButton)
-        contentView.addSubview(habitStatusCheckmark)
-        
     }
     
     private func setupConstraints() {
@@ -104,11 +96,6 @@ class HabitCollectionViewCell: UICollectionViewCell {
             habitStatusButton.heightAnchor.constraint(equalToConstant: 36.0),
             habitStatusButton.widthAnchor.constraint(equalToConstant: 36.0),
             habitStatusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            
-            habitStatusCheckmark.heightAnchor.constraint(equalToConstant: 16.0),
-            habitStatusCheckmark.widthAnchor.constraint(equalToConstant: 16.0),
-            habitStatusCheckmark.centerXAnchor.constraint(equalTo: habitStatusButton.centerXAnchor),
-            habitStatusCheckmark.centerYAnchor.constraint(equalTo: habitStatusButton.centerYAnchor),
         ])
     }
     
@@ -119,6 +106,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
         habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count)
         habitStatusButton.layer.borderColor = fullNameLabel.textColor.cgColor
         if model.isAlreadyTakenToday == true {
+            habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         } else { habitStatusButton.backgroundColor = UIColor.systemBackground }
     }
@@ -127,12 +115,14 @@ class HabitCollectionViewCell: UICollectionViewCell {
     @objc 
     func changeHabitStatus(sender: UIButton) {
         print(habitStatusButton.tag)
-        print(HabitsStore.shared.habits[tag].isAlreadyTakenToday)
-        if HabitsStore.shared.habits[tag].isAlreadyTakenToday == false {
-            HabitsStore.shared.track(HabitsStore.shared.habits[tag])
+        print(HabitsStore.shared.habits[tag].name)
+        print(HabitsStore.shared.habits[habitStatusButton.tag].isAlreadyTakenToday)
+        if HabitsStore.shared.habits[habitStatusButton.tag].isAlreadyTakenToday == false {
+            HabitsStore.shared.track(HabitsStore.shared.habits[habitStatusButton.tag])
+            habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         } else {
-            habitStatusButton.backgroundColor = UIColor.systemBackground
+            habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         }
     }
     

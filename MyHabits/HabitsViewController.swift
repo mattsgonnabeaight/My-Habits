@@ -12,7 +12,7 @@ class HabitsViewController: UIViewController {
     private lazy var habitListLabel : UILabel = {
         let habitListLabel = UILabel()
         habitListLabel.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-        habitListLabel.textColor = .black
+        habitListLabel.textColor = .label
         habitListLabel.text = "Сегодня"
         habitListLabel.numberOfLines = 0
         habitListLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -37,12 +37,40 @@ class HabitsViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createHabit))
-        for i in 0...HabitsStore.shared.dates.count - 1 {
-            print(HabitsStore.shared.dates[i])
-        }
-        
+//        for i in 0...HabitsStore.shared.dates.count - 1 {
+//            print(HabitsStore.shared.dates[i])
+//        }
+//        print(HabitsStore.shared.habits.count)
+//        for i in 0...HabitsStore.shared.habits.count - 1 {
+//            print(HabitsStore.shared.habits[i])
+//        }
 //        for i in 0...HabitsStore.shared.habits.count - 1 {
 //            print(HabitsStore.shared.habits[i].isAlreadyTakenToday)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MM yyyy"
+        dateFormatter.dateStyle = .long
+//        habitDate.text = dateFormatter.string(from: model)
+        
+        print(HabitsStore.shared.habits[6].name)
+        print(HabitsStore.shared.habits[6].trackDates.isEmpty)
+        
+        print("444")
+        
+        for i in 0...HabitsStore.shared.habits.count - 1 {
+            print("Habbit \(i + 1) :")
+            if !HabitsStore.shared.habits[i].trackDates.isEmpty {
+                for j in 0...HabitsStore.shared.habits[i].trackDates.count - 1 {
+                    let trackedDate = dateFormatter.string(from: HabitsStore.shared.habits[i].trackDates[j])
+                    print("tracked: \(j+1). \(trackedDate)")
+                    print("____")
+                }
+            } else {
+                    print("not tracked")
+                }
+            }
+        
+        
 //        }
         setupViews()
         setupConstraints()
@@ -64,14 +92,14 @@ class HabitsViewController: UIViewController {
     @objc func createHabit() {
         let habitViewController = UINavigationController()
         habitViewController.navigationBar.backgroundColor = .systemBackground
-        habitViewController.viewControllers = [HabitViewController()]
+        habitViewController.viewControllers = [HabitViewController(isEditor: false)]
         habitViewController.modalPresentationStyle = .fullScreen
         habitViewController.modalTransitionStyle = .coverVertical
         tabBarController?.present(habitViewController, animated: true, completion: nil)
     }
     
     func setupViews() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = false
         self.view.addSubview(habitListLabel)
         view.addSubview(collectionView)

@@ -29,10 +29,11 @@ class HabitDetailsViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editHabit))
         setupViews()
         setupConstraints()
+        tuneTableView()
     }
     
     func setupViews() {
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = false
         view.addSubview(tableView)
     }
@@ -46,13 +47,37 @@ class HabitDetailsViewController: UIViewController {
         ])
     }
     
+    
     @objc func editHabit() {
         let habitViewController = UINavigationController()
+        let habitEditorViewController = HabitViewController(isEditor: true)
         habitViewController.navigationBar.backgroundColor = .systemBackground
-        habitViewController.viewControllers = [HabitViewController()]
+        habitViewController.viewControllers = [habitEditorViewController]
+        
         habitViewController.modalPresentationStyle = .fullScreen
         habitViewController.modalTransitionStyle = .coverVertical
         tabBarController?.present(habitViewController, animated: true, completion: nil)
+    }
+    
+    private func tuneTableView() {
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 44.0
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0.0
+        }
+        
+//        let headerView = ProfileHeaderView()
+//        tableView.setAndLayout(headerView: headerView)
+        tableView.register(
+            HabitDetailsTableViewCell.self,
+            forCellReuseIdentifier: CellReuseID.habitDate.rawValue
+        )
+//        tableView.register(
+//            PostTableViewCell.self,
+//            forCellReuseIdentifier: CellReuseID.base.rawValue
+//        )
+        tableView.dataSource = self
+        tableView.delegate = self
     }
 }
 
@@ -70,12 +95,14 @@ extension HabitDetailsViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CellReuseID.habitDate.rawValue, for: indexPath) as? HabitDetailsTableViewCell else {
             fatalError("could not dequeueReusableCell")
         }
-        //let model = HabitsStore.shared.dates[indexPath.row]
+        let model = HabitsStore.shared.dates
 //        let model = HabitsStore.shared.habits
         
         
         //print(model)
-        cell.update(data[indexPath.row])
+        cell.sraniyKostil.tag = indexPath.row
+        cell.update(model[indexPath.row])
+        
         return cell
     }
 }
