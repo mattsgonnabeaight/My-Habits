@@ -99,11 +99,6 @@ class HabitDetailsTableViewCell: UITableViewCell {
         print(HabitsStore.shared.habits.count)
         print(sraniyKostil.tag)
         print("___")
-//        if HabitsStore.shared.habit(HabitsStore.shared.habits[sraniyKostil.tag], isTrackedIn: model) {
-//            habitDate.text = dateFormatter.string(from: model) + " --- " + String(sraniyKostil.tag) + String("___ is tracked")
-//        } else {
-//            habitDate.text = dateFormatter.string(from: model) + " --- " + String(sraniyKostil.tag)
-//        }
         habitDate.text = dateFormatter.string(from: model) + " --- " + String(sraniyKostil.tag)
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HabitsViewController: UIViewController {
+class HabitsViewController: UIViewController, HabitsViewControllerDelegate {
     
     private lazy var habitListLabel : UILabel = {
         let habitListLabel = UILabel()
@@ -24,54 +24,20 @@ class HabitsViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .systemBackground
-        collectionView.register(HabitCollectionViewCell.self, forCellWithReuseIdentifier: HabitCollectionViewCell.identifier)
+        collectionView.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: CellReuseID.progress.rawValue)
+        collectionView.register(HabitCollectionViewCell.self, forCellWithReuseIdentifier: CellReuseID.habit.rawValue)
         return collectionView
     }()
     
     private enum CellReuseID: String, CaseIterable {
-        //case status = "StatusTableViewCell_ReuseID"
-        case habit = "HabitTableViewCell_ReuseID"
+        case progress = "ProgressCollecltionViewCell_ReuseID"
+        case habit = "HabitCollectionViewCell_ReuseID"
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(createHabit))
-//        for i in 0...HabitsStore.shared.dates.count - 1 {
-//            print(HabitsStore.shared.dates[i])
-//        }
-//        print(HabitsStore.shared.habits.count)
-//        for i in 0...HabitsStore.shared.habits.count - 1 {
-//            print(HabitsStore.shared.habits[i])
-//        }
-//        for i in 0...HabitsStore.shared.habits.count - 1 {
-//            print(HabitsStore.shared.habits[i].isAlreadyTakenToday)
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MM yyyy"
-        dateFormatter.dateStyle = .long
-//        habitDate.text = dateFormatter.string(from: model)
-        
-        print(HabitsStore.shared.habits[6].name)
-        print(HabitsStore.shared.habits[6].trackDates.isEmpty)
-        
-        print("444")
-        
-        for i in 0...HabitsStore.shared.habits.count - 1 {
-            print("Habbit \(i + 1) :")
-            if !HabitsStore.shared.habits[i].trackDates.isEmpty {
-                for j in 0...HabitsStore.shared.habits[i].trackDates.count - 1 {
-                    let trackedDate = dateFormatter.string(from: HabitsStore.shared.habits[i].trackDates[j])
-                    print("tracked: \(j+1). \(trackedDate)")
-                    print("____")
-                }
-            } else {
-                    print("not tracked")
-                }
-            }
-        
-        
-//        }
         setupViews()
         setupConstraints()
         setupCollectionView()
@@ -84,7 +50,7 @@ class HabitsViewController: UIViewController {
     }
     
     func updateCollection() {
-        print("called")
+        print("called delegate")
         collectionView.reloadData()
     }
 
@@ -128,17 +94,37 @@ class HabitsViewController: UIViewController {
 
 extension HabitsViewController: UICollectionViewDataSource {
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        CellReuseID.allCases.count
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        HabitsStore.shared.habits.count
+        if section == 0 {
+            return 1
+        } else {
+            return HabitsStore.shared.habits.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HabitCollectionViewCell.identifier, for: indexPath) as! HabitCollectionViewCell
-        let habit = HabitsStore.shared.habits[indexPath.row]
-        cell.habitStatusButton.tag = indexPath.row
-        cell.setup(with: habit)
         
-        return cell
+        
+        if indexPath.section == 0 {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellReuseID.progress.rawValue, for: indexPath) as? ProgressCollectionViewCell else {
+                fatalError("could not dequeueReusableCell")
+            }
+            let habit = HabitsStore.shared.todayProgress
+            cell.setup(with: habit)
+            return cell
+        } else {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellReuseID.habit.rawValue, for: indexPath) as? HabitCollectionViewCell else {
+                fatalError("could not dequeueReusableCell")
+            }
+            let habit = HabitsStore.shared.habits[indexPath.row]
+            cell.habitStatusButton.tag = indexPath.row
+            cell.setup(with: habit, index: indexPath.row)
+            return cell
+        }
     }
 }
 
@@ -153,7 +139,11 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = itemWidth(for: view.frame.width, spacing: 8)
-        return CGSize(width: width, height: 150)
+        if indexPath.section == 0 {
+            return CGSize(width: width, height: 70)
+        } else {
+            return CGSize(width: width, height: 150)
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -175,6 +165,6 @@ extension HabitsViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-//protocol ReloadDateDelegate {
-//    func updateCollection()
-//}
+protocol HabitsViewControllerDelegate {
+    func updateCollection()
+}

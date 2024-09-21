@@ -37,21 +37,24 @@ class HabitCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    var delegate: HabitsViewControllerDelegate?
+    
+    var habitIndex: Int?
+    
     lazy var habitStatusButton : UIButton = {
         let habitStatusButton = UIButton()
-
         habitStatusButton.translatesAutoresizingMaskIntoConstraints = false
         habitStatusButton.layer.masksToBounds = true
         habitStatusButton.layer.cornerRadius = 18.0
         habitStatusButton.layer.borderWidth = 3
         habitStatusButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
         habitStatusButton.imageView?.tintColor = .systemBackground
-//        habitStatusButton.imageView?.alpha = 0.0
         habitStatusButton.addTarget(self, action: #selector(changeHabitStatus), for: .touchUpInside)
         return habitStatusButton
     }()
 
     override init(frame: CGRect) {
+//        delegate = self.delegate
         super.init(frame: .zero)
         tuneView()
         setupConstraints()
@@ -99,11 +102,12 @@ class HabitCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    func setup(with model: Habit) {
+    func setup(with model: Habit, index: Int) {
+        habitIndex = index
         fullNameLabel.text = model.name
         fullNameLabel.textColor = model.color
         habitTimeLabel.text = model.dateString
-        habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count)
+        habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count) + "test id -- \(String(describing: habitIndex))"
         habitStatusButton.layer.borderColor = fullNameLabel.textColor.cgColor
         if model.isAlreadyTakenToday == true {
             habitStatusButton.imageView?.tintColor = .white
@@ -114,25 +118,19 @@ class HabitCollectionViewCell: UICollectionViewCell {
     
     @objc 
     func changeHabitStatus(sender: UIButton) {
-        print(habitStatusButton.tag)
-        print(HabitsStore.shared.habits[tag].name)
-        print(HabitsStore.shared.habits[habitStatusButton.tag].isAlreadyTakenToday)
         if HabitsStore.shared.habits[habitStatusButton.tag].isAlreadyTakenToday == false {
             HabitsStore.shared.track(HabitsStore.shared.habits[habitStatusButton.tag])
             habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
+            if let delegate = delegate {
+                self.delegate?.updateCollection()
+            } else {
+                print("no delegate")
+            }
         } else {
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         }
     }
-    
-//    @objc
-//    func deleteHabit(sender: UIButton) {
-//        
-//        HabitsStore.shared.habits.remove(at: habitStatusButton.tag)
-//        self.delegate = HabitsViewController()
-//        
-//        print("pressed delete")
-//    }
 }
+
 

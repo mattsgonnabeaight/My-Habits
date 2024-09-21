@@ -77,25 +77,13 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
         return habitTimePicker
     }()
     
-    private lazy var habitDeleteButton : UIButton = {
-        let habitDeleteButton = UIButton(type: .system)
-        habitDeleteButton.setTitle("Удалить привычку", for: .normal)
-        habitDeleteButton.translatesAutoresizingMaskIntoConstraints = false
-//        habitColorPicker.layer.masksToBounds = true
-        
-//        let button = UIButton(type: .system)
-//        button.setTitle("New post", for: .normal)
-//        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-//        button.addTarget(self, action: #selector(showPost), for: .touchUpInside)
-//        button.translatesAutoresizingMaskIntoConstraints = false
-//        return button
-        
-        
-        
-        
-        habitColorPicker.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
-        return habitColorPicker
-    }()
+//    private lazy var habitDeleteButton : UIButton = {
+//        let habitDeleteButton = UIButton(type: .system)
+//        habitDeleteButton.setTitle("Удалить привычку", for: .normal)
+//        habitDeleteButton.translatesAutoresizingMaskIntoConstraints = false
+//        habitColorPicker.addTarget(self, action: #selector(showColorPicker), for: .touchUpInside)
+//        return habitColorPicker
+//    }()
     
     var isEditor: Bool
     
