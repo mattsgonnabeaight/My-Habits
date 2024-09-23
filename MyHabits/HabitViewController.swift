@@ -22,10 +22,13 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     private lazy var habitNameField : UITextField = {
         let habitNameField = UITextField()
         habitNameField.translatesAutoresizingMaskIntoConstraints = false
+        habitNameField.borderStyle = UITextField.BorderStyle.roundedRect
+        habitNameField.layer.cornerRadius = 4
         habitNameField.placeholder = "Бегать по утрам, спать 8 часов и т.п."
         habitNameField.autocapitalizationType = .sentences
         habitNameField.layer.borderColor = UIColor.gray.cgColor
         habitNameField.layer.borderWidth = 1
+        addPadding(habitNameField)
         return habitNameField
     }()
     
@@ -240,5 +243,11 @@ class HabitViewController: UIViewController, UIColorPickerViewControllerDelegate
     
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
         self.habitColorPicker.backgroundColor = viewController.selectedColor
+    }
+    
+    private func addPadding(_ textField: UITextField) {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: 50))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
     }
 }

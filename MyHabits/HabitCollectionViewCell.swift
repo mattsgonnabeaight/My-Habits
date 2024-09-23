@@ -54,7 +54,6 @@ class HabitCollectionViewCell: UICollectionViewCell {
     }()
 
     override init(frame: CGRect) {
-//        delegate = self.delegate
         super.init(frame: .zero)
         tuneView()
         setupConstraints()
@@ -123,7 +122,11 @@ class HabitCollectionViewCell: UICollectionViewCell {
             habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
             if let delegate = delegate {
-                self.delegate?.updateCollection()
+                //HabitsViewController.delegate = self
+                
+                self.delegate = HabitsViewController()
+                //HabitsViewController.updateCollection()
+//                updateCollection()
             } else {
                 print("no delegate")
             }

@@ -107,8 +107,6 @@ extension HabitsViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
-        
         if indexPath.section == 0 {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellReuseID.progress.rawValue, for: indexPath) as? ProgressCollectionViewCell else {
                 fatalError("could not dequeueReusableCell")
@@ -126,6 +124,8 @@ extension HabitsViewController: UICollectionViewDataSource {
             return cell
         }
     }
+    
+    
 }
 
 extension HabitsViewController: UICollectionViewDelegateFlowLayout {
