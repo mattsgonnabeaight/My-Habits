@@ -106,12 +106,13 @@ class HabitCollectionViewCell: UICollectionViewCell {
         fullNameLabel.text = model.name
         fullNameLabel.textColor = model.color
         habitTimeLabel.text = model.dateString
-        habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count) + "test id -- \(String(describing: habitIndex))"
+        habitRepeatCounter.text = "Счетчик: " + String(model.trackDates.count)
         habitStatusButton.layer.borderColor = fullNameLabel.textColor.cgColor
         if model.isAlreadyTakenToday == true {
             habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         } else { habitStatusButton.backgroundColor = UIColor.systemBackground }
+        delegate = HabitsViewController()
     }
 
     
@@ -121,15 +122,8 @@ class HabitCollectionViewCell: UICollectionViewCell {
             HabitsStore.shared.track(HabitsStore.shared.habits[habitStatusButton.tag])
             habitStatusButton.imageView?.tintColor = .white
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
-            if let delegate = delegate {
-                //HabitsViewController.delegate = self
-                
-                self.delegate = HabitsViewController()
-                //HabitsViewController.updateCollection()
-//                updateCollection()
-            } else {
-                print("no delegate")
-            }
+            delegate?.updateCollection()
+            print(delegate)
         } else {
             habitStatusButton.backgroundColor = UIColor(cgColor: habitStatusButton.layer.borderColor!)
         }
